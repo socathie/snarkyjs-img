@@ -5,7 +5,7 @@ import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
 import { pack1DArrayTo2D } from './util';
 import * as fs from 'fs';
 
-describe('Censoring.js', () => {
+describe('Censoring', () => {
   beforeAll(async () => {
     await isReady;
   });
