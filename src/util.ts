@@ -1,7 +1,7 @@
 import { DynamicArray } from './zkApp-data-types/src/dynamicArray.js';
 import { Field } from 'snarkyjs';
 
-export class FieldArray extends DynamicArray(Field, 400) {}
+export class FieldArray extends DynamicArray(Field, 600) {}
 
 export function pack1DArrayTo2D<T>(
     array: T[],

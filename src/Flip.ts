@@ -1,7 +1,7 @@
 import { Field } from 'snarkyjs';
 import { FieldArray } from './util';
 
-export function Flip(imgArray: FieldArray, imgWidth: number, imgHeight: number, vertical: boolean): Field[][] {
+export function Flip(imgArray: FieldArray, imgWidth: number, imgHeight: number, vertical: boolean): FieldArray {
     // format imgarray into 2d array
     const img: Field[][] = [];
     for (let i = 0; i < imgHeight; i++) {
@@ -36,6 +36,14 @@ export function Flip(imgArray: FieldArray, imgWidth: number, imgHeight: number, 
             }
         }
     }
+
+    // flatten result using
+    const resultArray: Field[] = [];
+    for (let i = 0; i < result.length; i++) {
+        for (let j = 0; j < result[i].length; j++) {
+            resultArray.push(result[i][j]);
+        }
+    }
     
-    return result;
+    return FieldArray.from(resultArray);
 }

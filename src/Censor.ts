@@ -1,7 +1,7 @@
 import { Field } from 'snarkyjs';
 import { FieldArray } from './util';
 
-export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number, x: number, y: number, width: number, height: number): Field[][] {
+export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number, x: number, y: number, width: number, height: number): FieldArray {
     // format imgarray into 2d array
     const img: Field[][] = [];
     for (let i = 0; i < imgHeight; i++) {
@@ -38,5 +38,14 @@ export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number
             }
         }
     }
-    return result;
+
+    // flatten result using
+    const resultArray: Field[] = [];
+    for (let i = 0; i < result.length; i++) {
+        for (let j = 0; j < result[i].length; j++) {
+            resultArray.push(result[i][j]);
+        }
+    }
+    
+    return FieldArray.from(resultArray);
 }

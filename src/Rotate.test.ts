@@ -22,11 +22,11 @@ describe('Rotate', () => {
         Field(7), Field(8), Field(9),
       ]);
       const result = Rotate(img, 3, 3, 90);
-      const expected = [
-        [Field(7), Field(4), Field(1)],
-        [Field(8), Field(5), Field(2)],
-        [Field(9), Field(6), Field(3)],
-      ];
+      const expected = FieldArray.from([
+        Field(7), Field(4), Field(1),
+        Field(8), Field(5), Field(2),
+        Field(9), Field(6), Field(3),
+      ]);
       expect(result).toEqual(expected);
     });
 
@@ -37,11 +37,11 @@ describe('Rotate', () => {
         Field(7), Field(8), Field(9),
       ]);
       const result = Rotate(img, 3, 3, 180);
-      const expected = [
-        [Field(9), Field(8), Field(7)],
-        [Field(6), Field(5), Field(4)],
-        [Field(3), Field(2), Field(1)],
-      ];
+      const expected = FieldArray.from([
+        Field(9), Field(8), Field(7),
+        Field(6), Field(5), Field(4),
+        Field(3), Field(2), Field(1),
+      ]);
       expect(result).toEqual(expected);
     });
 
@@ -52,11 +52,11 @@ describe('Rotate', () => {
         Field(7), Field(8), Field(9),
       ]);
       const result = Rotate(img, 3, 3, 270);
-      const expected = [
-        [Field(3), Field(6), Field(9)],
-        [Field(2), Field(5), Field(8)],
-        [Field(1), Field(4), Field(7)],
-      ];
+      const expected = FieldArray.from([
+        Field(3), Field(6), Field(9),
+        Field(2), Field(5), Field(8),
+        Field(1), Field(4), Field(7),
+      ]);
       expect(result).toEqual(expected);
     });
 
@@ -76,15 +76,15 @@ describe('Rotate', () => {
       const result = Rotate(imgField, 20, 20, 90);
 
       // Create a canvas element
-      const canvas: Canvas = createCanvas(result[0].length, result.length);
+      const canvas: Canvas = createCanvas(20, 20);
 
       // Get the 2D rendering context
       const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
       // Convert the binary array into an image
-      for (let y = 0; y < result.length; y++) {
-        for (let x = 0; x < result[y].length; x++) {
-          const color = result[y][x].toString() === "1" ? 'black' : 'white';
+      for (let y = 0; y < 20; y++) {
+        for (let x = 0; x < 20; x++) {
+          const color = result.get(Field(y * 20 + x)).toString() === "1" ? 'black' : 'white';
           ctx.fillStyle = color;
           ctx.fillRect(x, y, 1, 1);
         }

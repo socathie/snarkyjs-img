@@ -21,11 +21,11 @@ describe('Crop', () => {
         Field(4), Field(5), Field(6),
         Field(7), Field(8), Field(9),
       ]);
-      const expected = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
+      const expected = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
       const result = Crop(img, 3, 3, 0, 0, 3, 3);
       expect(result).toEqual(expected);
     });
@@ -37,10 +37,10 @@ describe('Crop', () => {
         Field(7), Field(8), Field(9),
       ]);
       const result = Crop(img, 3, 3, 0, 0, 2, 2);
-      const expected = [
-        [Field(1), Field(2)],
-        [Field(4), Field(5)],
-      ];
+      const expected = FieldArray.from([
+        Field(1), Field(2),
+        Field(4), Field(5),
+      ]);
       expect(result).toEqual(expected);
     });
 
@@ -51,10 +51,10 @@ describe('Crop', () => {
         Field(7), Field(8), Field(9),
       ]);
       const result = Crop(img, 3, 3, 1, 1, 2, 2);
-      const expected = [
-        [Field(5), Field(6)],
-        [Field(8), Field(9)],
-      ];
+      const expected = FieldArray.from([
+        Field(5), Field(6),
+        Field(8), Field(9),
+      ]);
       expect(result).toEqual(expected);
     });
 
@@ -96,15 +96,15 @@ describe('Crop', () => {
       const result = Crop(imgField, 20, 20, 0, 0, 20, 10);
 
       // Create a canvas element
-      const canvas2: Canvas = createCanvas(result[0].length, result.length);
+      const canvas2: Canvas = createCanvas(20, 10);
 
       // Get the 2D rendering context
       const ctx2: CanvasRenderingContext2D = canvas2.getContext('2d');
 
       // Convert the binary array into an image
-      for (let y = 0; y < result.length; y++) {
-        for (let x = 0; x < result[y].length; x++) {
-          const color = result[y][x].toString() === "1" ? 'black' : 'white';
+      for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 20; x++) {
+          const color = result.get(Field(y * 20 + x)).toString() === "1" ? 'black' : 'white';
           ctx2.fillStyle = color;
           ctx2.fillRect(x, y, 1, 1);
         }
