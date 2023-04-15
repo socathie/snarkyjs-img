@@ -1,0 +1,3 @@
+[submodule "zkApp-data-types"]
+	path = zkApp-data-types
+	url = https://github.com/gretzke/zkApp-data-types.git
