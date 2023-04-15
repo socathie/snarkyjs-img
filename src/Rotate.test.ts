@@ -15,55 +15,87 @@ describe('Rotate', () => {
   });
 
   describe('Rotate()', () => {
-    it.todo('should be correct');
+    it('should rotate a 3x3 image 90 degrees', () => {
+      const img = [
+        [Field(1), Field(2), Field(3)],
+        [Field(4), Field(5), Field(6)],
+        [Field(7), Field(8), Field(9)],
+      ];
+      const result = Rotate(img, 90);
+      const expected = [
+        [Field(7), Field(4), Field(1)],
+        [Field(8), Field(5), Field(2)],
+        [Field(9), Field(6), Field(3)],
+      ];
+      expect(result).toEqual(expected);
+    });
 
-    // it('should flip an actual image', () => {
-    //   const img = pack1DArrayTo2D(test[0].input, 20, 20);
+    it('should rotate a 3x3 image 180 degrees', () => {
+      const img = [
+        [Field(1), Field(2), Field(3)],
+        [Field(4), Field(5), Field(6)],
+        [Field(7), Field(8), Field(9)],
+      ];
+      const result = Rotate(img, 180);
+      const expected = [
+        [Field(9), Field(8), Field(7)],
+        [Field(6), Field(5), Field(4)],
+        [Field(3), Field(2), Field(1)],
+      ];
+      expect(result).toEqual(expected);
+    });
 
-    //   // Create a canvas element
-    //   const canvas: Canvas = createCanvas(img[0].length, img.length);
+    it('should rotate a 3x3 image 270 degrees', () => {
+      const img = [
+        [Field(1), Field(2), Field(3)],
+        [Field(4), Field(5), Field(6)],
+        [Field(7), Field(8), Field(9)],
+      ];
+      const result = Rotate(img, 270);
+      const expected = [
+        [Field(3), Field(6), Field(9)],
+        [Field(2), Field(5), Field(8)],
+        [Field(1), Field(4), Field(7)],
+      ];
+      expect(result).toEqual(expected);
+    });
 
-    //   // Get the 2D rendering context
-    //   const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+    it('should throw error if angle is not 90, 180, or 270', () => {
+      const img = [
+        [Field(1), Field(2), Field(3)],
+        [Field(4), Field(5), Field(6)],
+        [Field(7), Field(8), Field(9)],
+      ];
+      expect(() => Rotate(img, 45)).toThrowError();
+    });
 
-    //   // Convert the binary array into an image
-    //   for (let y = 0; y < img.length; y++) {
-    //     for (let x = 0; x < img[y].length; x++) {
-    //       const color = img[y][x] === 1 ? 'black' : 'white';
-    //       ctx.fillStyle = color;
-    //       ctx.fillRect(x, y, 1, 1);
-    //     }
-    //   }
+    it('should rotate an actual image', () => {
+      const img = pack1DArrayTo2D(test[0].input, 20, 20);
 
-    //   // Save the image to a file
-    //   const buffer = canvas.toBuffer('image/png');
+      // make number[][] into Field[][]
+      const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
 
-    //   fs.writeFileSync('assets/original.png', buffer);
+      const result = Rotate(imgField, 90);
 
-    //   // make number[][] into Field[][]
-    //   const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
+      // Create a canvas element
+      const canvas: Canvas = createCanvas(result[0].length, result.length);
 
-    //   const result = Flip(imgField, true);
+      // Get the 2D rendering context
+      const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
-    //   // Create a canvas element
-    //   const canvas2: Canvas = createCanvas(result[0].length, result.length);
+      // Convert the binary array into an image
+      for (let y = 0; y < result.length; y++) {
+        for (let x = 0; x < result[y].length; x++) {
+          const color = result[y][x].toString() === "1" ? 'black' : 'white';
+          ctx.fillStyle = color;
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
 
-    //   // Get the 2D rendering context
-    //   const ctx2: CanvasRenderingContext2D = canvas2.getContext('2d');
+      // Save the image to a file
+      const buffer = canvas.toBuffer('image/png');
 
-    //   // Convert the binary array into an image
-    //   for (let y = 0; y < result.length; y++) {
-    //     for (let x = 0; x < result[y].length; x++) {
-    //       const color = result[y][x].toString() === "1" ? 'black' : 'white';
-    //       ctx2.fillStyle = color;
-    //       ctx2.fillRect(x, y, 1, 1);
-    //     }
-    //   }
-
-    //   // Save the image to a file
-    //   const buffer2 = canvas2.toBuffer('image/png');
-
-    //   fs.writeFileSync('assets/flipped.png', buffer2);
-    // });
+      fs.writeFileSync('assets/rotated.png', buffer);
+    });
   });
 });
