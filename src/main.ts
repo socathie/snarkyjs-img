@@ -46,7 +46,7 @@ await deployTxn.sign([deployerKey, zkAppPrivateKey]).send();
 
 // get the initial state of IncrementSecret after deployment
 const num0 = zkAppInstance.hash.get();
-console.log('state after init:', num0.toString());
+console.log('hash after init:', num0.toString());
 
 // ----------------------------------------------------
 
@@ -55,7 +55,20 @@ const txn1 = await Mina.transaction(senderAccount, () => {
 });
 await txn1.prove();
 await txn1.sign([senderKey]).send();
-// console.log('state after txn1:', num1.toString());
+
+const num1 = zkAppInstance.hash1.get();
+console.log('hash1 after txn1:', num1.toString());
+
+// ----------------------------------------------------
+
+const txn2 = await Mina.transaction(senderAccount, () => {
+  zkAppInstance.transform2(imgArray);
+});
+await txn2.prove();
+await txn2.sign([senderKey]).send();
+
+const num2 = zkAppInstance.hash2.get();
+console.log('hash2 after txn2:', num2.toString());
 
 // ----------------------------------------------------
 
