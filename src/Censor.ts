@@ -1,12 +1,12 @@
 import { Field } from 'snarkyjs';
 
-export function Censoring(img: Field[][], x: number, y: number, width: number, height: number): Field[][] {
+export function Censor(img: Field[][], x: number, y: number, width: number, height: number): Field[][] {
     // check image is big enough
     if (img.length < y + height || img[0].length < x + width) {
         throw new Error('Image is too small');
     }
     
-    // censoring
+    // Censor
     const result: Field[][] = img;
     for (let i = 0; i < img.length; i++) {
         for (let j = 0; j < img[i].length; j++) {

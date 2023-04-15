@@ -1,11 +1,11 @@
 import { isReady, shutdown, Field } from 'snarkyjs';
-import { Censoring } from './Censoring';
+import { Censor } from './Censor';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
 import { pack1DArrayTo2D } from './util';
 import * as fs from 'fs';
 
-describe('Censoring', () => {
+describe('Censor', () => {
   beforeAll(async () => {
     await isReady;
   });
@@ -14,14 +14,14 @@ describe('Censoring', () => {
     setTimeout(() => shutdown(), 0);
   });
 
-  describe('Censoring()', () => {
+  describe('Censor()', () => {
     it('should return original 3x3 image', () => {
       const img = [
         [Field(1), Field(2), Field(3)],
         [Field(4), Field(5), Field(6)],
         [Field(7), Field(8), Field(9)],
       ];
-      const result = Censoring(img, 0, 0, 0, 0);
+      const result = Censor(img, 0, 0, 0, 0);
       expect(result).toEqual(img);
     });
 
@@ -31,7 +31,7 @@ describe('Censoring', () => {
         [Field(4), Field(5), Field(6)],
         [Field(7), Field(8), Field(9)],
       ];
-      const result = Censoring(img, 0, 0, 2, 2);
+      const result = Censor(img, 0, 0, 2, 2);
       const expected = [
         [Field(1), Field(1), Field(3)],
         [Field(1), Field(1), Field(6)],
@@ -46,7 +46,7 @@ describe('Censoring', () => {
         [Field(4), Field(5), Field(6)],
         [Field(7), Field(8), Field(9)],
       ];
-      const result = Censoring(img, 1, 1, 2, 2);
+      const result = Censor(img, 1, 1, 2, 2);
       const expected = [
         [Field(1), Field(2), Field(3)],
         [Field(4), Field(1), Field(1)],
@@ -61,10 +61,10 @@ describe('Censoring', () => {
         [Field(4), Field(5), Field(6)],
         [Field(7), Field(8), Field(9)],
       ];
-      expect(() => Censoring(img, 0, 0, 4, 4)).toThrowError('Image is too small');
+      expect(() => Censor(img, 0, 0, 4, 4)).toThrowError('Image is too small');
     });
 
-    it('should Censoring an actual image', () => {
+    it('should Censor an actual image', () => {
       const img = pack1DArrayTo2D(test[0].input, 20, 20);
 
       // Create a canvas element
@@ -90,7 +90,7 @@ describe('Censoring', () => {
       // make number[][] into Field[][]
       const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
       
-      const result = Censoring(imgField, 5, 5, 10, 10);
+      const result = Censor(imgField, 5, 5, 10, 10);
 
       // Create a canvas element
       const canvas2: Canvas = createCanvas(result[0].length, result.length);

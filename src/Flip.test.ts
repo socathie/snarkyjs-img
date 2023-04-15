@@ -14,7 +14,7 @@ describe('Flip', () => {
     setTimeout(() => shutdown(), 0);
   });
 
-  describe('Crop()', () => {
+  describe('Flip()', () => {
     it('should flip a 3x3 image vertically', () => {
       const img = [
         [Field(1), Field(2), Field(3)],
