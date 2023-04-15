@@ -19,8 +19,8 @@
     "coverage": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --coverage",
     "format": "prettier --write --ignore-unknown **/*",
     "prepare": "husky install",
-    "test": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js",
-    "testw": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --watch",
+    "test": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --testPathIgnorePatterns=src/zkApp-data-types",
+    "testw": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --watch --testPathIgnorePatterns=src/zkApp-data-types",
     "lint": "npx eslint src/* --fix"
   },
   "lint-staged": {

@@ -1,11 +1,21 @@
 import { Field } from 'snarkyjs';
+import { FieldArray } from './util';
 
-export function Censor(img: Field[][], x: number, y: number, width: number, height: number): Field[][] {
+export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number, x: number, y: number, width: number, height: number): Field[][] {
+    // format imgarray into 2d array
+    const img: Field[][] = [];
+    for (let i = 0; i < imgHeight; i++) {
+        const row: Field[] = [];
+        for (let j = 0; j < imgWidth; j++) {
+            row.push(imgArray.get(Field(i * imgWidth + j)));
+        }
+        img.push(row);
+    }
     // check image is big enough
     if (img.length < y + height || img[0].length < x + width) {
         throw new Error('Image is too small');
     }
-    
+
     // Censor
     const result: Field[][] = img;
     for (let i = 0; i < img.length; i++) {
@@ -17,7 +27,7 @@ export function Censor(img: Field[][], x: number, y: number, width: number, heig
             }
         }
     }
-    
+
     // assert result and original image have same pixels
     for (let i = 0; i < img.length; i++) {
         for (let j = 0; j < img[i].length; j++) {

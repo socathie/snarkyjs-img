@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Crop } from './Crop';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { pack1DArrayTo2D } from './util';
+import { FieldArray, pack1DArrayTo2D } from './util';
 import * as fs from 'fs';
 
 describe('Crop', () => {
@@ -16,22 +16,27 @@ describe('Crop', () => {
 
   describe('Crop()', () => {
     it('should return original 3x3 image', () => {
-      const img = [
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const expected = [
         [Field(1), Field(2), Field(3)],
         [Field(4), Field(5), Field(6)],
         [Field(7), Field(8), Field(9)],
       ];
-      const result = Crop(img, 0, 0, 3, 3);
-      expect(result).toEqual(img);
+      const result = Crop(img, 3, 3, 0, 0, 3, 3);
+      expect(result).toEqual(expected);
     });
 
     it('should return 2x2 out of a 3x3 image', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      const result = Crop(img, 0, 0, 2, 2);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const result = Crop(img, 3, 3, 0, 0, 2, 2);
       const expected = [
         [Field(1), Field(2)],
         [Field(4), Field(5)],
@@ -40,12 +45,12 @@ describe('Crop', () => {
     });
 
     it('should return 2x2 out of a 3x3 image with offset', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      const result = Crop(img, 1, 1, 2, 2);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const result = Crop(img, 3, 3, 1, 1, 2, 2);
       const expected = [
         [Field(5), Field(6)],
         [Field(8), Field(9)],
@@ -54,12 +59,12 @@ describe('Crop', () => {
     });
 
     it('should throw error if image is too small', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      expect(() => Crop(img, 0, 0, 4, 4)).toThrowError('Image is too small');
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      expect(() => Crop(img, 3, 3, 0, 0, 4, 4)).toThrowError('Image is too small');
     });
 
     it('should crop an actual image', () => {
@@ -85,10 +90,10 @@ describe('Crop', () => {
 
       fs.writeFileSync('assets/original.png', buffer);
 
-      // make number[][] into Field[][]
-      const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
+      // flatten img and convert to each number into Field, then form FieldArray
+      const imgField = FieldArray.from(img.reduce((acc, val) => acc.concat(val), []).map((val) => Field(val)));
       
-      const result = Crop(imgField, 0, 0, 20, 10);
+      const result = Crop(imgField, 20, 20, 0, 0, 20, 10);
 
       // Create a canvas element
       const canvas2: Canvas = createCanvas(result[0].length, result.length);

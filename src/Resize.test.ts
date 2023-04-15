@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Resize } from './Resize';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { pack1DArrayTo2D } from './util';
+import { FieldArray } from './util';
 import * as fs from 'fs';
 
 describe('Resize.js', () => {
@@ -16,12 +16,12 @@ describe('Resize.js', () => {
     });
 
     it('should resize a 3x3 image to 2x2', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      const result = Resize(img, 2, 2);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const result = Resize(img, 3, 3, 2, 2);
       const expected = [
         [Field(1), Field(2)],
         [Field(4), Field(5)],
@@ -30,12 +30,12 @@ describe('Resize.js', () => {
     });
 
     it('should resize a 3x3 image to 4x4', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      const result = Resize(img, 4, 4);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const result = Resize(img, 3, 3, 4, 4);
       const expected = [
         [Field(1), Field(1), Field(2), Field(3)],
         [Field(1), Field(1), Field(2), Field(3)],
@@ -46,12 +46,10 @@ describe('Resize.js', () => {
     });
 
     it('should resize an actual image', () => {
-      const img = pack1DArrayTo2D(test[0].input, 20, 20);
+      const img = test[0].input;
+      const imgField = FieldArray.from(img.map((x) => Field(x)));
 
-      // make number[][] into Field[][]
-      const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
-
-      const result = Resize(imgField, 30, 40);
+      const result = Resize(imgField, 20, 20, 30, 40);
 
       // Create a canvas element
       const canvas: Canvas = createCanvas(result[0].length, result.length);

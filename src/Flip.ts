@@ -1,6 +1,17 @@
 import { Field } from 'snarkyjs';
+import { FieldArray } from './util';
 
-export function Flip(img: Field[][], vertical: boolean): Field[][] {
+export function Flip(imgArray: FieldArray, imgWidth: number, imgHeight: number, vertical: boolean): Field[][] {
+    // format imgarray into 2d array
+    const img: Field[][] = [];
+    for (let i = 0; i < imgHeight; i++) {
+        const row: Field[] = [];
+        for (let j = 0; j < imgWidth; j++) {
+            row.push(imgArray.get(Field(i * imgWidth + j)));
+        }
+        img.push(row);
+    }
+    
     const result: Field[][] = [];
     if (vertical) {
         for (let i = 0; i < img.length; i++) {

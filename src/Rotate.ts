@@ -1,6 +1,17 @@
 import { Field } from 'snarkyjs';
+import { FieldArray } from './util';
 
-export function Rotate(img: Field[][], degree: number): Field[][] {
+export function Rotate(imgArray: FieldArray, imgWidth: number, imgHeight: number, degree: number): Field[][] {
+    // format imgarray into 2d array
+    const img: Field[][] = [];
+    for (let i = 0; i < imgHeight; i++) {
+        const row: Field[] = [];
+        for (let j = 0; j < imgWidth; j++) {
+            row.push(imgArray.get(Field(i * imgWidth + j)));
+        }
+        img.push(row);
+    }
+    
     // check degree is 90, 180 or 270
     if (degree !== 90 && degree !== 180 && degree !== 270) {
         throw new Error('Degree must be 90, 180 or 270');

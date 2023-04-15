@@ -9,14 +9,14 @@ import {
   AccountUpdate,
 } from 'snarkyjs';
 
-import { pack1DArrayTo2D } from './util.js';
+import { FieldArray } from './util.js';
+
 import { test } from 'small-mnist';
 
-const img = pack1DArrayTo2D(test[0].input, 20, 20);
-// make number[][] into Field[][]
-const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
-
 await isReady;
+
+const img = test[0].input;
+const imgArray = FieldArray.from(img.map(pixel => Field(pixel)));
 
 console.log('SnarkyJS loaded');
 
@@ -39,7 +39,7 @@ const zkAppInstance = new Photoshop(zkAppAddress);
 const deployTxn = await Mina.transaction(deployerAccount, () => {
   AccountUpdate.fundNewAccount(deployerAccount);
   zkAppInstance.deploy();
-  zkAppInstance.initState(imgField);
+  zkAppInstance.initState(imgArray);
 });
 await deployTxn.prove();
 await deployTxn.sign([deployerKey, zkAppPrivateKey]).send();

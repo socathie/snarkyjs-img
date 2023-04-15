@@ -4,15 +4,14 @@ import {
     state,
     State,
     method,
-    Poseidon,
 } from 'snarkyjs';
+
+import { FieldArray } from './util';
 
 export class Photoshop extends SmartContract {
     @state(Field) hash = State<Field>();
 
-    @method initState(image: Field[][]) {
-        // flatten the image
-        const flattened = image.reduce((acc, row) => acc.concat(row), []);
-        this.hash.set(Poseidon.hash(flattened));
+    @method initState(image: FieldArray) {
+        this.hash.set(image.hash());
     }
 }

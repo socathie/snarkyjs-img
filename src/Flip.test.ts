@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Flip } from './Flip';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { pack1DArrayTo2D } from './util';
+import { FieldArray } from './util';
 import * as fs from 'fs';
 
 describe('Flip', () => {
@@ -16,12 +16,12 @@ describe('Flip', () => {
 
   describe('Flip()', () => {
     it('should flip a 3x3 image vertically', () => {
-      const img = [
-        [Field(1), Field(2), Field(3)],
-        [Field(4), Field(5), Field(6)],
-        [Field(7), Field(8), Field(9)],
-      ];
-      const result = Flip(img, true);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3),
+        Field(4), Field(5), Field(6),
+        Field(7), Field(8), Field(9),
+      ]);
+      const result = Flip(img, 3, 3, true);
       const expected = [
         [Field(7), Field(8), Field(9)],
         [Field(4), Field(5), Field(6)],
@@ -31,13 +31,13 @@ describe('Flip', () => {
     });
 
     it('should flip a 4x4 image horizontally', () => {
-      const img = [
-        [Field(1), Field(2), Field(3), Field(4)],
-        [Field(5), Field(6), Field(7), Field(8)],
-        [Field(9), Field(10), Field(11), Field(12)],
-        [Field(13), Field(14), Field(15), Field(16)],
-      ];
-      const result = Flip(img, false);
+      const img = FieldArray.from([
+        Field(1), Field(2), Field(3), Field(4),
+        Field(5), Field(6), Field(7), Field(8),
+        Field(9), Field(10), Field(11), Field(12),
+        Field(13), Field(14), Field(15), Field(16),
+      ]);
+      const result = Flip(img, 4, 4, false);
       const expected = [
         [Field(4), Field(3), Field(2), Field(1)],
         [Field(8), Field(7), Field(6), Field(5)],
@@ -50,12 +50,10 @@ describe('Flip', () => {
 
 
     it('should flip an actual image', () => {
-      const img = pack1DArrayTo2D(test[0].input, 20, 20);
+      const img = test[0].input;
+      const imgField = FieldArray.from(img.map((x) => Field(x)));
 
-      // make number[][] into Field[][]
-      const imgField = img.map((row) => row.map((pixel) => Field(pixel)));
-
-      const result = Flip(imgField, true);
+      const result = Flip(imgField, 20, 20, true);
 
       // Create a canvas element
       const canvas: Canvas = createCanvas(result[0].length, result.length);

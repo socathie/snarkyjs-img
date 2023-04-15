@@ -1,6 +1,16 @@
 import { Field } from 'snarkyjs';
+import { FieldArray } from './util';
 
-export function Crop(img: Field[][], x: number, y: number, width: number, height: number): Field[][] {
+export function Crop(imgArray: FieldArray, imgWidth: number, imgHeight: number, x: number, y: number, width: number, height: number): Field[][] {
+    // format imgarray into 2d array
+    const img: Field[][] = [];
+    for (let i = 0; i < imgHeight; i++) {
+        const row: Field[] = [];
+        for (let j = 0; j < imgWidth; j++) {
+            row.push(imgArray.get(Field(i * imgWidth + j)));
+        }
+        img.push(row);
+    }
     // check image is big enough
     if (img.length < y + height || img[0].length < x + width) {
         throw new Error('Image is too small');
