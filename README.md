@@ -2,6 +2,12 @@
 
 This template uses TypeScript.
 
+## Pull submodules
+
+```sh
+git submodule update --init --recursive
+```
+
 ## How to build
 
 ```sh
