@@ -1,7 +1,7 @@
-import { Censor } from "./Censor";
-import { Crop } from "./Crop";
-import { Flip } from "./Flip";
-import { Resize } from "./Resize";
-import { Rotate } from "./Rotate";
+import { Censor } from "./Censor.js";
+import { Crop } from "./Crop.js";
+import { Flip } from "./Flip.js";
+import { Resize } from "./Resize.js";
+import { Rotate } from "./Rotate.js";
 
 export { Censor, Crop, Flip, Resize, Rotate };

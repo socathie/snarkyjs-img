@@ -50,13 +50,11 @@ console.log('state after init:', num0.toString());
 
 // ----------------------------------------------------
 
-// const txn1 = await Mina.transaction(senderAccount, () => {
-//   zkAppInstance.incrementSecret(salt, Field(750));
-// });
-// await txn1.prove();
-// await txn1.sign([senderKey]).send();
-
-// const num1 = zkAppInstance.x.get();
+const txn1 = await Mina.transaction(senderAccount, () => {
+  zkAppInstance.transform1(imgArray);
+});
+await txn1.prove();
+await txn1.sign([senderKey]).send();
 // console.log('state after txn1:', num1.toString());
 
 // ----------------------------------------------------
