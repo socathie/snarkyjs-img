@@ -17,6 +17,8 @@ jobs:
           node-version: '16'
       - name: Git checkout
         uses: actions/checkout@v2
+      - name: Pull submodules
+        run: git submodule update --init --recursive
       - name: NPM ci, build, & test
         run: |
           npm install
