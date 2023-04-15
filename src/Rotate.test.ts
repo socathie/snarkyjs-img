@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Rotate } from './Rotate';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { FieldArray } from './util';
+import { FieldArray } from './util.js';
 import * as fs from 'fs';
 
 describe('Rotate', () => {

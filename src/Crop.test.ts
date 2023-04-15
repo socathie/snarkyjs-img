@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Crop } from './Crop';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { FieldArray, pack1DArrayTo2D } from './util';
+import { FieldArray, pack1DArrayTo2D } from './util.js';
 import * as fs from 'fs';
 
 describe('Crop', () => {

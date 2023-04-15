@@ -2,7 +2,7 @@ import { isReady, shutdown, Field } from 'snarkyjs';
 import { Resize } from './Resize';
 import { test } from 'small-mnist';
 import { createCanvas, Canvas, CanvasRenderingContext2D } from 'canvas';
-import { FieldArray } from './util';
+import { FieldArray } from './util.js';
 import * as fs from 'fs';
 
 describe('Resize.js', () => {

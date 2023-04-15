@@ -1,5 +1,5 @@
 import { Field } from 'snarkyjs';
-import { FieldArray } from './util';
+import { FieldArray } from './util.js';
 
 export function Rotate(imgArray: FieldArray, imgWidth: number, imgHeight: number, degree: number): FieldArray {
     // format imgarray into 2d array

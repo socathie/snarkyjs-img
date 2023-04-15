@@ -1,5 +1,5 @@
 import { Field } from 'snarkyjs';
-import { FieldArray } from './util';
+import { FieldArray } from './util.js';
 
 export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number, x: number, y: number, width: number, height: number): FieldArray {
     // format imgarray into 2d array
@@ -46,6 +46,6 @@ export function Censor(imgArray: FieldArray, imgWidth: number, imgHeight: number
             resultArray.push(result[i][j]);
         }
     }
-    
+
     return FieldArray.from(resultArray);
 }
