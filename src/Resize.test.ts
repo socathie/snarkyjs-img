@@ -40,7 +40,7 @@ describe('Resize.js', () => {
         [Field(1), Field(1), Field(2), Field(3)],
         [Field(1), Field(1), Field(2), Field(3)],
         [Field(4), Field(4), Field(5), Field(6)],
-        [Field(4), Field(4), Field(5), Field(6)],
+        [Field(7), Field(7), Field(8), Field(9)],
       ];
       expect(result).toEqual(expected);
     });
